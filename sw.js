@@ -31,4 +31,12 @@ self.addEventListener("activate", (e) => {
 // fetch service worker
 self.addEventListener("fetch", (e) => {
 	// console.log("Service worker has been fetched", e);
+	e.respondWith(
+		caches
+			.match(e.request)
+			.then((cacheRes) => {
+				return cacheRes || fetch(e.request);
+			})
+			.catch()
+	);
 });
